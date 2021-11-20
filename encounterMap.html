@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5FWK5WHN2R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5FWK5WHN2R');
+    </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="robots" content="noindex">
+    <meta name="description" content="The player view allows all of simplyRPG's normal canvas interactions (move,measure,draw, and erase) while minimizing on unnecessary options. This allows for a clean and professional appearance.">
+    <link rel="icon" href="assets/images/small-logo.png">
+    <title>Player View</title>
+
+    <!-- boostrap CSS -->
+    <link href="./libraries/bootstrap/bootstrap.css" rel="stylesheet">
+    <!-- simplyRPG CSS -->
+    <link rel="stylesheet" type="text/css" href="gmView.css">
+    <link rel="stylesheet" type="text/css" href="encounterMap.css">
+</head>
+<body onload="init()" id="mainBody" class="grayBackground" style="padding: 0">
+
+    <!-- top of the encounter map -->
+    <div class="container"><div class="row">
+        <!-- choose the interactive mode -->
+        <div class="col-sm-7 col-md-6 col-lg-4 col-xl-4"><div class="centering">
+            <div class="btn-group btn-group-toggle" style="margin: .5rem" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input type="radio" id="circleMoving" onclick="circleMoving()" autocomplete="off" checked> Move
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" id="measureMode" onclick="measureMode()" autocomplete="off"> Measure
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" id="lineDrawing" onclick="lineDrawing()" autocomplete="off"> Draw
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" onclick="lineErasing()" autocomplete="off"> Erase
+              </label>
+            </div>
+        </div></div>
+
+        <!-- choose the size and color for drawing -->
+        <div class="col-sm-4 col-md-3 col-lg-2 col-xl-2"><div class="centering">
+            <div class="verticalDiv" style="margin: .25rem 0 .4rem 0;">
+                <select name="drawSize" id = "drawSize" class="dropdown">
+                    <option value=2>Small</option>
+                    <option value=5>Medium</option>
+                    <option value=10>Large</option>
+                </select>
+                <select name="drawColor" id = "drawColor" class="dropdown">
+                    <option value="black">black</option>
+                    <option value="blue">blue</option>
+                    <option value="red">red</option>
+                    <option value="green">green</option>
+                </select>
+            </div>
+        </div></div>
+    </div></div>
+
+    <!-- Encounter map -->
+    <div id="mirroredEncounterMap">
+        <canvas id="canvas" width="320" height="180"></canvas>
+    </div>
+</body>
+
+<!-- Import boostrap javascript -->
+<script src="./libraries/bootstrap/jquery-3.5.1.slim.min.js"></script>
+<script src="./libraries/bootstrap/bootstrap.js"></script>
+<!-- Import compression javascript -->
+<script src="./libraries/compressor.min.js"></script>
+<!-- Import simplyRPG JavaScript -->
+<script src="./libraries/fakeBroadcastPolyfill.js"></script>
+<script src="./libraries/easeljs.js"></script>
+<script src="./libraries/canvasModule.js"></script>
+<script src="./libraries/dynamicDivModule.js"></script>
+
+<script type="text/javascript">
+    let stage;
+
+    function init() {
+        globs.windowLocation = "encounterMap";
+        stage = new createjs.Stage("canvas");
+        createjs.Touch.enable(stage);
+        stage.mouseMoveOutside = true;
+
+        setupCanvas();
+        broadcastChannel.bc.onmessage=handleCanvasUpdates;
+        setMirrorMapSupported();
+
+        if (supportsMirrorMap) {
+            broadcastChannel.postMessage(['requestOppositePageElements']);
+        }
+    }
+
+    function handleCanvasUpdates (event) {
+        let broadcastMetadata = event.data[0];
+        let broadcastData = event.data[1];
+
+        if (broadcastMetadata[2] == 'main') {
+            applyBroadcast(broadcastData,broadcastMetadata[0],broadcastMetadata[1]);
+        }
+    }
+
+    function setMirrorMapSupported () {
+        //If this browser doesn't support the mirror map, notify the user
+        //Use a global variable defined in fakeBroadcastPolyfill.js
+        if (!supportsMirrorMap) {
+            canvas = document.getElementById('canvas');
+            canvas.style.display="none";
+
+            document.getElementById('mirroredEncounterMap').style.backgroundColor = "rgb(231, 231, 231)";
+
+            warning = document.createElement('p');
+            warning.innerHTML = "This browser does not support Player View. This is a known issue with Internet Explorer and Safari. We're working on a solution!"
+            warning.style.textAlign = 'center';
+            warning.style.fontSize = "x-large"
+            warning.style.marginTop = "1em";
+            document.getElementById('mirroredEncounterMap').appendChild(warning);
+
+            warning2 = document.createElement('p');
+            warning2.innerHTML = "simplyRPG works best with Google Chrome";
+            warning2.style.textAlign = 'center';
+            warning2.style.fontSize = "x-large";
+            warning2.style.marginTop = "1em";
+            document.getElementById('mirroredEncounterMap').appendChild(warning2);
+        } else {
+            window.onresize = resizeCanvas;
+        }
+    }
+</script>
+
+</html>

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5FWK5WHN2R"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5FWK5WHN2R');
+    </script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="The GM View is where simplyRPG's magic happends. Place tokens, import maps, play music and more with this convenient interface.">
+    <title>simplyRPG</title>
+    <link rel="icon" href="assets/images/small-logo.png">
+
+    <!-- boostrap CSS -->
+    <link href="./libraries/bootstrap/bootstrap.css" rel="stylesheet">
+    <!-- simplyRPG CSS -->
+    <link rel="stylesheet" type="text/css" href="gmView.css">
+</head>
+
+<body onload="init()" id="mainBody" class="grayBackground">
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top blueBackground">
+    <img src="assets/images/logo1-white.png" class="logo">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="./index.html">Home</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="./gmView.html">simplyRPG</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./supportTheSite.html">Support the Site</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="./faq.html">FAQ</a>
+      </li>
+    </ul>
+  </div>
+
+</nav>
+
+<main>
+    <div class="container">
+
+        <div class='row'>
+            <!-- File interaction -->
+            <div class="col-md-5 col-lg-4 interactionDiv">
+                <div class="row"><div class="col-12 centering blueBackground" style="color: white; border-radius: .25rem .25rem 0 0;"><span>File Interaction:</span></div></div>
+                <div class="row">
+                    <!-- save -->
+                    <div class="col-5 centering blueBackground" style="border-radius: 0 0 0 .25rem;">
+                        <span>File Name:</span>
+                        <input type="text" name="saveName" id="saveName" class="" style="width: 6rem; margin-bottom: .4rem">
+                    </div>
+                    <div class="col-3 centering blueBackground">
+                        <button id="save" type="button" class="btn btn-light" onclick="saveCanvas()">Save</button>
+                    </div>
+                    <!-- Load -->
+                    <div class="col-4 centering blueBackground" style="border-radius: 0 0 .25rem 0;">
+                        <button id="load" type="button" class="btn btn-light" onclick="loadCanvas()">Load</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- spacer -->
+            <div class="col-1"></div>
+
+            <!-- Canvas setup -->
+            <div class="col-md-6 col-lg-7 blueBackground interactionDiv">
+                <div class="col-12 centering" style="color: white"><span>Canvas Setup:</span></div>
+                <div class="row">
+                    <!-- Import background Image -->
+                     <div class="col-lg-5 centering">
+                        <label for="mapImageFile" class="buttonMimic">Import Background Image</label>
+                        <input type="file" name="mapImageFile" id="mapImageFile" onchange="loadMapImageFromButton(event)" class="fileUpload">
+                    </div>
+                    <div class="col-lg-7"><div class="row">
+                        <!-- Grid Draw -->
+                        <div class="col-sm-6 centering"><div class="centering">
+                            <span>Draw Grid:</span>
+                            <input type="checkbox" id="includeGrid" style="color: white; border-radius: .25rem" onchange="updateGridFromButton()">
+                        </div></div>
+                        <!-- Map Scale -->
+                        <div class="col-sm-6 centering"><div class="centering">
+                            <span id="canvasScaleLabel">Map Scale: 5px/ft</span>
+                            <input type="range" min="1" max="15" value="5" id="canvasScale" oninput="updateCanvasScaleFromSlider()">
+                        </div></div>
+                    </div></div>
+                </div>
+
+                <div class="row">
+                     <!-- clear canvas -->
+                    <div class="col-sm-6 centering">
+                        <button class="btn btn-light" style="margin: .5rem" onclick="clearCanvas()">Clear Canvas</button>
+                    </div>
+                     <!-- launch player view -->
+                    <div class="col-sm-6 centering">
+                        <button class="btn btn-light" style="margin: .5rem" onclick="createMirrorWindow()">Launch Player View</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- top of the encounter map -->
+        <div class="blueBackground upperMapSettings row">
+            <!-- choose the interactive mode -->
+            <div class="col-sm-7 col-md-5 col-lg-4 col-xl-4"><div class="centering">
+                <div class="btn-group btn-group-toggle" style="margin: .5rem" data-toggle="buttons">
+                  <label class="btn btn-secondary active">
+                    <input type="radio" id="circleMoving" onclick="circleMoving()" autocomplete="off" checked> Move
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" id="measureMode" onclick="measureMode()" autocomplete="off"> Measure
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" id="lineDrawing" onclick="lineDrawing()" autocomplete="off"> Draw
+                  </label>
+                  <label class="btn btn-secondary">
+                    <input type="radio" onclick="lineErasing()" autocomplete="off"> Erase
+                  </label>
+                </div>
+            </div></div>
+
+            <!-- choose the size and color for drawing -->
+            <div class="col-sm-4 col-md-3 col-lg-2 col-xl-2"><div class="centering">
+                <div class="verticalDiv" style="margin: .25rem 0 .4rem 0;">
+                    <select name="drawSize" id = "drawSize" class="dropdown">
+                        <option value=2>Small</option>
+                        <option value=5>Medium</option>
+                        <option value=10>Large</option>
+                    </select>
+                    <select name="drawColor" id = "drawColor" class="dropdown">
+                        <option value="black">black</option>
+                        <option value="blue">blue</option>
+                        <option value="red">red</option>
+                        <option value="green">green</option>
+                    </select>
+                </div>
+            </div></div>
+        </div>
+
+        <!-- encounter map -->
+        <div id='canvasHolder' class="whiteBackground row centering">
+            <canvas id="canvas" width="320" height="180"></canvas>
+        </div>
+
+        <!-- bottom of the encounter map -->
+        <div class="blueBackground lowerMapSettings row">
+            <div class="col-lg-7"><div class="row">
+                <!-- add new token -->
+                <div class="col-sm-4"><div class="centering">
+                    <button type="button" type="button" class="btn btn-light" style="margin: .5rem 0;" onclick="drawNewCircleFromButton()">Add New Token</button>
+                </div></div>
+                <!-- choose token type -->
+                <div class="col-7 col-sm-4"><div class="centering"><div class="centering">
+                    <label for="circleShape" style="margin: 0;">Type:&nbsp;</label>
+                    <select name="circleShape" id="circleShape" class="dropdown">
+                        <option value="circle">Circle</option>
+                        <option value="square">Square</option>
+                        <option value="cone">Cone</option>
+                        <option value="customCircle">Character Token</option>
+                        <option value="custom">Custom</option>
+                    </select>
+                </div></div></div>
+                <!-- choose token color -->
+                <div class="col-5 col-sm-4"><div class="centering"><div class="centering">
+                    <label for="circleColor" style="margin:0;">Color:&nbsp;</label>
+                    <select name="circleColor" id="circleColor" class="dropdown">
+                        <option value="red">Red</option>
+                        <option value="green">Green</option>
+                        <option value="blue">Blue</option>
+                        <option value="black">Black</option>
+                    </select>
+                </div></div></div>  
+            </div></div>
+            <div class="col-lg-5"><div class="row">
+                <!-- choose token opacity -->
+                <div class="col-6"><div class="centering"><div class="centering">
+                    <span for="circleTransparency" id="circleTransparencyLabel" style="margin: .5rem 0 0 0;">Opacity: 100%</span>
+                    <input type="range" min="0" max="100" value="100" step="10" id="circleTransparency" style="margin: 0 0 .5rem 0;" oninput="updateCircleTransparencyLabel()">
+                </div></div></div>
+                <!-- choose token size -->
+                <div class="col-6"><div class="centering"><div class="centering">
+                    <span for="circleSize" id="circleSizeLabel" style="margin: .5rem 0 0 0;">Size: 5ft</span>
+                    <input type="range" min="2.5" max="50" value="5" step="2.5" id="circleSize" style="margin: 0 0 .5rem 0;" oninput="updateCircleSliderLabel()">
+                </div></div></div>
+            </div></div>
+        </div>
+
+
+        <!-- lower half of the page -->
+        <div class="row">
+            <!-- symbol manager -->
+            <div class="col-md-6 col-lg-4"><div class="centering">
+                <div id='symbolMenu' class="tilePane whiteBackground scrollable" style="width: 18rem">
+                    <h6>Token Manager</h6>
+                        <hr class="blueBackground">
+                </div>   
+            </div></div>
+
+            <!-- dice roller -->
+            <div class="col-md-6 col-lg-4"><div class="centering">
+                <div id="dicePane" class="tilePane whiteBackground" style="overflow: hidden;">
+                    <h6>&#127922; Roller</h6>
+                        <hr class="blueBackground">
+                        <div class="dice">
+                            <p>d4 x&nbsp;</p>
+                            <input type="number" id="d4" name="d4" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d4 total" name="d4 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem">
+                        </div>
+                        <div class="dice">
+                            <p>d6 x&nbsp;</p>
+                            <input type="number" id="d6" name="d6" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d6 total" name="d6 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem"> 
+                        </div>
+                        <div class="dice">
+                            <p>d8 x&nbsp;</p>
+                            <input type="number" id="d8" name="d8" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d8 total" name="d8 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem">           
+                        </div>
+                        <div class="dice">
+                            <p>d10 x&nbsp;</p>
+                            <input type="number" id="d10" name="d10" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d10 total" name="d10 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem">
+                        </div>
+                        <div class="dice">
+                            <p>d12 x&nbsp;</p>
+                            <input type="number" id="d12" name="d12" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d12 total" name="d12 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem">  
+                        </div>
+                        <div class="dice">
+                            <p>d20 x&nbsp;</p>
+                            <input type="number" id="d20" name="d20" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d20 total" name="d20 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem">
+                        </div>
+                        <div class="dice">
+                            <p>d100 x&nbsp;</p>
+                            <input type="number" id="d100" name="d100" min="0" style="width: 2.5rem; height: 1.5rem">
+                            <p>=&nbsp;</p>
+                            <input type="number" id="d100 total" name="d100 total" min="0" onchange="sumDiceTypes()" style="width: 2.5rem; height: 1.5rem">
+                        </div>
+                        <hr style="height: .2rem; background-color: gray ">
+                        <div class="dice">
+                            <p>Total:&nbsp;</p>
+                            <input type="number" id="dice total" name="dice total" min="0" style="width: 3em">
+                        </div>
+                        <div id="diceSubmitBox">
+                            <button id="diceSubmit" type="button" class="btn btn-primary btn-sm" onclick="rollDice()">Roll</button>
+                        </div>
+                </div>
+            </div></div>
+
+            <!-- music player -->
+            <div class="col-md-12 col-lg-4"><div class="centering">
+                <div class="tilePane whiteBackground scrollable" id="musicMenu" style="width: 18rem">
+                    <h6>&#9834; Player</h6>
+                        <hr class="blueBackground">
+                    <div id="musicLoadingDiv" class="rounded blueBackground">
+                        <div>
+                            <label for="loadMusicButton" type="button" class="buttonMimic" style="margin: 0.25em 0">Import Music</label>
+                            <input type="file" webkitdirectory mozdirectory name="loadMusicButton" id="loadMusicButton" onchange="loadMusic(event)" class="fileUpload">
+                        </div>
+                        <div class="centering"><div class="centering">
+                            <label style="margin: 0">Volume: </label>
+                            <input type="range" name="volumeSlider" min="0" max="1" step=".05" id="volumeSlider" oninput="updateVolume()" style="width: 6rem">
+                        </div></div>
+                    </div>
+                    <div id="musicExplanation">
+                        <p>Upload a folder containing music. Each music file should be in one of the following formats: .m4a, .mp3, or .mp4.
+                        Create playlists by including subfolders. For example:</p> <br>
+                        <p>Music Folder</p>
+                        <p>--- Playlist 1 Folder</p>
+                        <p>------ Song 1</p>
+                        <p>------ Song 2</p>
+                        <p>------ Song 3</p>
+                        <p>--- Playlist 2 Folder</p>
+                        <p>------ Song 1</p>
+                        <p>------ Song 2</p>
+                    </div>
+                </div>
+            </div></div>
+        </div>
+    <hr>
+    </div>
+</main>
+
+<footer class="container footer">
+  <span class="footer"> simplyRPG is powered by:</span><br>
+  <span class="footer"><a href="https://createjs.com/" target="_blank">createJS</a> and <a href="https://createjs.com/easeljs" target="_blank">easelJs</a></span><br>
+  <span class="footer"><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a> and <a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a></span><br>
+  <span class="footer"><a href="https://fengyuanchen.github.io/compressorjs/" target="_blank">compressorJS</a></span><br>
+  <span class="footer">under the <a href="./license.html" target="_blank">MIT License</a></span><br><br>
+  <img src="assets/images/logo1-normal.png" class="logo">
+</footer>
+
+</body>
+
+<!-- Import boostrap javascript -->
+<script src="./libraries/bootstrap/jquery-3.5.1.slim.min.js"></script>
+<script src="./libraries/bootstrap/bootstrap.js"></script>
+<!-- Import compression javascript -->
+<script src="./libraries/compressor.min.js"></script>
+<!-- Import simplyRPG JavaScript -->
+<script src="./libraries/fakeBroadcastPolyfill.js"></script>
+<script src="./libraries/easeljs.js"></script>
+<script src="./libraries/canvasModule.js"></script>
+<script src="./libraries/dynamicDivModule.js"></script>
+
+<script>
+    let stage;
+
+    globs.musicManager = {
+        musicHandles: [],
+        playlistHandles: [],
+        songsToPlayNext: [],
+        categorizedPlaylists: {},
+        activeAudio: new Audio(),
+        activeMusicHandle: null,
+        activePlaylistHandle: null,
+        pauseAutoSliderUpdates: false,
+
+        addMusic: function(musicObject) {
+            //The music object has 3 properties and is produce in the loadMusic() function
+            //file = an html File object
+            //name = the name of the music file
+            //playlist = the name of the playlist associated with this song, possibly non
+
+            //Get a list the playlists that already exist
+            let playlists = [];
+            for (let i=0;i<this.playlistHandles.length;i+=1) {
+                playlists.push(this.playlistHandles[i].playlist)
+            }
+
+            //If this type of playlist does not exist, create the Handle for it
+            if (!playlists.includes(musicObject.playlist)) {
+                let playlistHandle = new PlaylistHandle(musicObject,this.playlistHandles.length);
+                this.playlistHandles.push(playlistHandle);
+                this.categorizedPlaylists[playlistHandle.playlist] = [];
+            }
+
+            let musicHandle = new MusicHandle(musicObject,this.musicHandles.length);
+            this.musicHandles.push(musicHandle);
+            this.categorizedPlaylists[musicHandle.playlist].push(musicHandle);
+        }
+    }
+
+    function init() {
+        globs.windowLocation = "main";
+        stage = new createjs.Stage("canvas");
+        createjs.Touch.enable(stage);
+        stage.mouseMoveOutside = true;
+
+        setupCanvas();
+        setupAudio();
+        circleMoving(); //start in circle moving mode
+        broadcastChannel.bc.onmessage=handleCanvasUpdates;
+        window.onresize = resizeCanvas;
+    }
+
+    function handleCanvasUpdates (event) {
+        let broadcastMetadata = event.data[0];
+        let broadcastData = event.data[1];
+
+        if (broadcastMetadata[2] == 'encounterMap') {
+            applyBroadcast(broadcastData,broadcastMetadata[0],broadcastMetadata[1]);
+        }
+    }
+
+    function loadMapImageFromButton(event) {
+        let mapImage = event.target.files[0];
+        loadMapImage(mapImage);
+        broadcastChannel.postMessage(['loadMap',mapImage]);
+    }
+
+    function resizeCanvasFromButton() {
+        let sizeConverter = {
+            small:[320,180],
+            medium:[640,360],
+            large:[960,540],
+            xlarge:[1280,720]
+        }
+        xy = sizeConverter[document.getElementById('mapSize').value];
+        x = xy[0];y = xy[1];
+        resizeCanvas(x,y);
+        broadcastChannel.postMessage(["resizeCanvas",x,y]);
+    }
+
+    function updateGridFromButton() {
+        checkboxValue = document.getElementById('includeGrid').checked;
+        updateGrid(checkboxValue,document.getElementById("canvasScale").value);
+        broadcastChannel.postMessage(['toggleGrid',checkboxValue,document.getElementById("canvasScale").value]);
+    }
+
+    function updateCanvasScaleFromSlider () {
+        let pxPerFoot = document.getElementById("canvasScale").value;
+        updateCanvasScale(pxPerFoot);
+        updateCanvasScaleLabel()
+        broadcastChannel.postMessage(['updateScale',pxPerFoot]);
+    }
+
+    function drawNewCircleFromButton () {
+        let circleDiameter = document.getElementById('circleSize').value;
+        let circleColor = document.getElementById("circleColor").value;
+        if (document.getElementById("circleText")) {
+            circleText = document.getElementById("circleText").value;
+        } else {
+            circleText = '';
+        }
+        let circleType = document.getElementById("circleShape").value;
+        let circleTransparency = document.getElementById("circleTransparency").value;
+
+        colorConverter = {
+            'red': `rgba(255,0,0,${circleTransparency/100})`,
+            'green': `rgba(0,128,0,${circleTransparency/100})`,
+            'blue': `rgba(0,0,255,${circleTransparency/100})`,
+            'black': `rgba(0,0,0,${circleTransparency/100})`
+        }
+
+        circleColor = colorConverter[circleColor];
+
+        drawNewCircle(circleDiameter,circleColor,circleText,'main',circleType);
+        broadcastChannel.postMessage(['newCircle',circleDiameter,circleColor,circleText,circleType]);
+    }
+
+    function postLabels () {
+        //Posts the labels of all the circles so they can be updated in the window
+        let message = ['labelUpdate',[]];
+        for (let i=0;i<globs.circleHandles.length;i+=1) {
+            let circleHandle = globs.circleHandles[i];
+            if (circleHandle) {
+                let label = circleHandle.namedSubElements.labelbox.value;
+                message[1].push(label)
+            } else {
+                message[1].push(null)
+            }
+        }
+        broadcastChannel.postMessage(message);
+    }
+    function updateCircleSliderLabel() {
+        let circleSize = document.getElementById("circleSize").value;
+        const newText = `Size: ${circleSize}ft`;
+        document.getElementById("circleSizeLabel").innerHTML = newText;
+    }
+
+    function updateCircleTransparencyLabel() {
+        let circleOpacity = document.getElementById("circleTransparency").value;
+        const newText = `Opacity: ${circleOpacity}%`;
+        document.getElementById("circleTransparencyLabel").innerHTML = newText;
+    }
+
+    function updateCanvasScaleLabel() {
+        let pxPerFoot = document.getElementById("canvasScale").value;
+        const newText = `Map Scale: ${pxPerFoot}px/ft`;
+        document.getElementById("canvasScaleLabel").innerHTML = newText;
+    }
+
+    function createMirrorWindow () {
+        myWindow = window.open("./encounterMap.html","Encounter Map");
+    }
+
+    //Begin javascript for saving/loading the canvas
+    function saveCanvasState () {
+        //Saves the location of current tokens, measurers and lines
+        //Also saves metadataa like the map size, if the grid is drawn, etc.
+
+        let saveObject = {
+            backgroundImageBoolean: null,
+            canvasSize: [globs.canvasX,globs.canvasY],
+            gridDrawnBoolean: document.getElementById('includeGrid').checked,
+            mapScale: globs.pxPerFoot,
+            circles: [],
+            lines: [],
+            measurer: null,
+        }
+
+        //Save whether or not a background image exists
+        if (globs.backgroundBitmap) {
+            saveObject.backgroundImageBoolean = true;
+        } else {
+            saveObject.backgroundImageBoolean = false;
+        }
+
+        //Save current circles
+        for (let i=0; i < globs.circleHandles.length; i+=1) {
+            let circleHandle = globs.circleHandles[i];
+            if (circleHandle) {
+                let circle = circleHandle.namedSubElements.circle;
+
+                let circleDiameter = circle.circleRadius*2;
+                let circleColor= circle.circleColor;
+                let circleText = circle.circleText;
+                let circleNotes = circleHandle.namedSubElements.notesBox.value;
+                let circleX = circle.dragObject.x;
+                let circleY = circle.dragObject.y;
+                let circleType = circle.circleType;
+                let circleRotation = circle.dragObject.rotation;
+
+                saveObject.circles.push([circleDiameter,circleColor,circleText,circleNotes,circleX,circleY,circleType,circleRotation]);
+            }
+        }
+
+        //Save current lines
+        for (let i=0; i < drawer.lineSegments.length; i+=1) {
+            let lineSegment = drawer.lineSegments[i];
+
+            let startX = lineSegment.startX;
+            let endX = lineSegment.endX;
+            let startY = lineSegment.startY;
+            let endY = lineSegment.endY;
+            let width = lineSegment.width;
+            let color = lineSegment.color;
+
+            saveObject.lines.push([startX,endX,startY,endY,width,color]);
+        }
+
+        //Save the current measurer
+        if (measurer.currentLine) {
+            let startX = measurer.currentLine.startX;
+            let endX = measurer.currentLine.endX;
+            let startY = measurer.currentLine.startY;
+            let endY = measurer.currentLine.endY;
+
+            saveObject.measurer = [startX,endX,startY,endY];
+        }
+        return saveObject;
+    }
+
+    function loadCanvasState (saveObject, tokenImages) {
+
+        //Load in the previous map scale
+        updateCanvasScale(saveObject.mapScale);
+        updateCanvasScaleLabel()
+        broadcastChannel.postMessage(['updateScale',saveObject.mapScale]);
+
+        //Draw the grid if appropriate
+        document.getElementById('includeGrid').checked = saveObject.gridDrawnBoolean;
+        updateGridFromButton()
+
+        //Calculate a rescale factor
+        let preSaveX; let preSaveY;
+        preSaveX = saveObject.canvasSize[0]; preSaveY = saveObject.canvasSize[1];
+
+        let loadRescale = globs.canvasY/preSaveY;
+
+        //Redraw circles from memory
+        let imageIDX = 0;
+        for (let i=0; i < saveObject.circles.length; i+=1) {
+            let circleDiameter = saveObject.circles[i][0];
+            let circleColor= saveObject.circles[i][1];
+            let circleText = saveObject.circles[i][2];
+            let circleNotes = saveObject.circles[i][3];
+            let circleX = saveObject.circles[i][4]*loadRescale;
+            let circleY = saveObject.circles[i][5]*loadRescale;
+            let circleType = saveObject.circles[i][6];
+            let circleRotation = saveObject.circles[i][7];
+
+            if (circleType === 'customCircle' || circleType === 'custom') {
+                //Save the appropirate image files and token handles for later to introduce the images
+                //It is important to do this last because it happens when an event listener fires, so we otherwise end up in a race condition
+                let tokenImage = tokenImages[imageIDX];
+                drawNewCircle(circleDiameter,circleColor,circleText,'main',circleType,circleNotes,tokenImage);
+                broadcastChannel.postMessage(['newCircle',circleDiameter,circleColor,circleText,circleType]);
+                broadcastChannel.postMessage(['manuallyAppendImage',i,tokenImage]);
+                imageIDX += 1;
+            } else {
+                drawNewCircle(circleDiameter,circleColor,circleText,'main',circleType,circleNotes);
+                broadcastChannel.postMessage(['newCircle',circleDiameter,circleColor,circleText,circleType]);
+            }
+
+            let circleHandle = globs.circleHandles[i];
+            circleHandle.updateLocation(circleX,circleY)
+            broadcastChannel.postMessage(['moveCircle',i,circleX,circleY]);
+            circleHandle.updateRotation(circleRotation);
+            broadcastChannel.postMessage(['newRotation',i,circleRotation]);
+        }
+
+        //Redraw lines from memory
+        for (let i=0; i < saveObject.lines.length; i+=1) {
+            let lineSegment = saveObject.lines[i];
+
+            let startX = lineSegment[0]*loadRescale;
+            let endX = lineSegment[1]*loadRescale;
+            let startY = lineSegment[2]*loadRescale;
+            let endY = lineSegment[3]*loadRescale;
+            let width = lineSegment[4];
+            let color = lineSegment[5];
+
+            drawSingleLine (startX,endX,startY,endY,width,color)
+            broadcastChannel.postMessage(['drawLine',startX,endX,startY,endY,width,color]);
+        }
+
+        //Redraw measurer from memory
+        if (saveObject.measurer) {
+            let startX = saveObject.measurer[0]*loadRescale;
+            let endX = saveObject.measurer[1]*loadRescale;
+            let startY = saveObject.measurer[2]*loadRescale;
+            let endY = saveObject.measurer[3]*loadRescale;
+
+            drawSingleMeasurer(startX,endX,startY,endY);
+            broadcastChannel.postMessage(['drawMeasurer',startX,endX,startY,endY]);
+        }
+    }
+
+    function saveCanvas () {
+        let saveObject = saveCanvasState();
+
+        // Generate and download a file containing all the necessary information to replicate this canvas
+        let filesToSave = [];
+        if (globs.imageSrc) {
+            filesToSave.push(globs.imageSrc);
+            saveObject.fileStartIndexes = [0,globs.imageSrc.size]; //record the beginning of each file, relative to the // sybmol
+        } else {
+            saveObject.fileStartIndexes = [0]; //record the beginning of each file, relative to the // sybmol
+        }
+
+        for (let i =0; i < globs.circleHandles.length; i+= 1) {
+                let circleHandle = globs.circleHandles[i];
+                if (circleHandle) {
+                    let imageFile = circleHandle.namedSubElements.circle.compressedImage;
+                    if (imageFile) {
+                        saveObject.fileStartIndexes.push(saveObject.fileStartIndexes[saveObject.fileStartIndexes.length-1]+imageFile.size);
+                        filesToSave.push(imageFile);     
+                    }
+                }
+            }
+
+
+        saveObject = JSON.stringify(saveObject) + '//';
+        filesToSave.unshift(saveObject); //append the save object to the beginning of the file list
+
+        let filename = document.getElementById("saveName").value;
+        if (!filename) {
+            filename = 'Unnamed'
+        }
+
+        toSave = new File(filesToSave,filename);
+        let toSavePath = URL.createObjectURL(toSave);
+        download(filename+'.ttrpg',toSavePath);    
+    }
+
+    function loadCanvas () {
+        let element = document.createElement('input');
+        element.setAttribute('type', 'file');
+        element.style.display = 'none';
+        element.onchange = handleCanvasLoad;
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    function handleCanvasLoad() {
+        function subHandleCanvasLoad() {
+            globs.imageCompression = false; //turn off image compression because the images where already compressed the first time
+            broadcastChannel.postMessage(["toggleImageCompression"]) //turn image compression off for the encounter map, if it exists
+            borderIndex = fileReader.result.indexOf("//");
+
+            imageContents = savedFile.slice(borderIndex+2,savedFile.size)
+            jsonContents = fileReader.result.slice(0,borderIndex);
+            jsonContents = JSON.parse(jsonContents);
+
+            let savedImages = [];
+            for (let i=0; i < jsonContents.fileStartIndexes.length; i+=1) {
+                if (i < jsonContents.fileStartIndexes.length - 1.1) {
+                    savedImages.push(imageContents.slice(jsonContents.fileStartIndexes[i],jsonContents.fileStartIndexes[i+1]))
+                } else {
+                    //The last file needs to be treated a littledifferently
+                    savedImages.push(imageContents.slice(jsonContents.fileStartIndexes[i],imageContents.size))
+                }
+            }
+
+            if (jsonContents.backgroundImageBoolean) {
+                backgroundImage = savedImages[0];
+                savedImages.splice(0,1);
+                loadMapImage(backgroundImage);
+                broadcastChannel.postMessage(['loadMap',backgroundImage]);
+            }
+
+            loadCanvasState(jsonContents,savedImages);
+            globs.imageCompression = true; //turn image compression back on
+            broadcastChannel.postMessage(["toggleImageCompression"]) //turn image compression back on for the encounter map, if it exists
+        }
+
+        let savedFile = event.target.files[0];
+
+        fileReader = new FileReader()
+        fileReader.onload = subHandleCanvasLoad;
+        fileReader.readAsText(savedFile);
+    }
+
+    function download(filename, path) {
+        var element = document.createElement('a');
+        element.setAttribute('href', path);
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    //Begin javascript for the music
+    function loadMusic(event) {
+        musicExplanation = document.getElementById("musicExplanation");
+        musicExplanation.style.display = "none";
+
+        let fileDict = event.target.files;
+        //Convert fileDict object to an array of files;
+        let fileArray = [];
+        for (let i=0;i<fileDict.length;i+=1) {
+            fileArray.push(fileDict[String(i)])
+        }
+        //Filter out only music file types
+        function filterMusicFiles (fileName) {
+            const musicTypes = ['.m4a','.mp3','.mp4'];
+            for (let i=0;i<musicTypes.length;i+=1) {
+                if (fileName.webkitRelativePath.includes(musicTypes[i])) {
+                    return true
+                }
+            }
+            return false
+        }
+        fileArray = fileArray.filter(filterMusicFiles);
+
+        //Restructure as an array of objects
+        const fileObjectArray = [];
+        for (let i=0; i<fileArray.length; i+= 1) {
+            let tmpObject = {file:fileArray[i],
+                             name:fileArray[i].name,
+                             playlist:null};
+            //for Mac
+            splitName = fileArray[i].webkitRelativePath.split("/");
+            if (splitName.length > 1) {
+                tmpObject.playlist = splitName[splitName.length-2];
+            }
+            //for Windows
+            splitName = fileArray[i].webkitRelativePath.split("\\");
+            if (splitName.length > 1) {
+                tmpObject.playlist = splitName[splitName.length-2];
+            }
+            globs.musicManager.addMusic(tmpObject);
+        }
+    }
+
+    function convertSecondsToMinutes (seconds) {
+        let minutes = Math.floor(seconds/60);
+        let seconds2 = Math.round(seconds%60);
+        if (seconds2.toString().length <= 1) {
+            seconds2 = "0"+seconds2;
+        }
+
+        return minutes.toString()+":"+seconds2.toString();
+    }
+
+    function setupAudio () {
+        function updateDuration (event) {
+            let musicHandle = globs.musicManager.activeMusicHandle;
+            let activeAudio = globs.musicManager.activeAudio;
+            musicHandle.updateDuration(activeAudio.duration);
+        }
+        function updateTime (event) {
+            if (!globs.musicManager.pauseAutoSliderUpdates) {
+                let musicHandle = globs.musicManager.activeMusicHandle;
+                let activeAudio = globs.musicManager.activeAudio;
+                musicHandle.updateSongTime(activeAudio.currentTime);
+            } 
+        }
+        function handleSongEnd (event) {
+            let musicHandle = globs.musicManager.activeMusicHandle;
+            let playlistHandle = globs.musicManager.activePlaylistHandle;
+            let songsToPlay = globs.musicManager.songsToPlayNext;
+
+            if (globs.musicManager.songsToPlayNext.length >= 1) {
+                globs.musicManager.songsToPlayNext[0].startMusic(false,false);
+                globs.musicManager.songsToPlayNext.shift() //eliminate the first element from the list
+            } else {
+                musicHandle.stopMusic();
+                if (playlistHandle) {
+                    playlistHandle.stop();
+                }
+            }
+        }
+        globs.musicManager.activeAudio.addEventListener("timeupdate",updateTime);
+        globs.musicManager.activeAudio.addEventListener("durationchange",updateDuration);
+        globs.musicManager.activeAudio.addEventListener("ended",handleSongEnd);
+    }
+
+    function shuffle(array) {
+      var currentIndex = array.length, temporaryValue, randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
+    }
+
+    function updateVolume () {
+        volumeSlider = document.getElementById("volumeSlider");
+        globs.musicManager.activeAudio.volume = volumeSlider.value/5;
+    }
+
+    //Begin javascript for dice roller
+    function rollDice () {
+        function rollSingleDie (diceType) {
+            maxNumber = diceType.slice(1,diceType.length);
+            return Math.floor(Math.random()*maxNumber)+1
+        }
+
+        let diceTypes = ['d4','d6','d8','d10','d12','d20','d100'];
+        for (let i = 0; i < diceTypes.length; i += 1) {
+            let numberOfDice = document.getElementById(diceTypes[i]);
+            let diceTotal = document.getElementById(diceTypes[i]+' total');
+
+            if (!numberOfDice.value) {
+                numberOfDice.value = 0;
+            }
+            let rolledValue = 0;
+            for (let ii = 0; ii < numberOfDice.value; ii += 1) {
+                rolledValue += rollSingleDie(diceTypes[i]);
+            }
+            diceTotal.value = rolledValue;
+        }
+        sumDiceTypes();
+    }
+
+    function sumDiceTypes () {
+        let diceTypes = ['d4','d6','d8','d10','d12','d20','d100'];
+        let overallRolledValue = 0;
+        for (let i = 0; i < diceTypes.length; i += 1) {
+            let diceTotal = document.getElementById(diceTypes[i]+' total');
+            overallRolledValue += parseInt(diceTotal.value);
+        }
+        document.getElementById("dice total").value = overallRolledValue;
+    }
+
+</script>
+
+</html>

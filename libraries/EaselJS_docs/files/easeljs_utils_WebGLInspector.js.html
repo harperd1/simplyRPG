@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../assets/css/yui-cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/favicon.ico">
+    <script src="../assets/js/yui-source.js"></script>
+	<title>EaselJS v1.0.0 API Documentation : easeljs/utils/WebGLInspector.js</title>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><a href="http://www.createjs.com/easeljs"><img src="../assets/docs-icon-EaselJS.png" title="EaselJS"></a></h1>
+            
+        </div>
+        <div class="version">
+            <em>API Documentation for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/AlphaMapFilter.html">AlphaMapFilter</a></li>
+            
+                <li><a href="../classes/AlphaMaskFilter.html">AlphaMaskFilter</a></li>
+            
+                <li><a href="../classes/Bitmap.html">Bitmap</a></li>
+            
+                <li><a href="../classes/BitmapCache.html">BitmapCache</a></li>
+            
+                <li><a href="../classes/BitmapText.html">BitmapText</a></li>
+            
+                <li><a href="../classes/BlurFilter.html">BlurFilter</a></li>
+            
+                <li><a href="../classes/ButtonHelper.html">ButtonHelper</a></li>
+            
+                <li><a href="../classes/ColorFilter.html">ColorFilter</a></li>
+            
+                <li><a href="../classes/ColorMatrix.html">ColorMatrix</a></li>
+            
+                <li><a href="../classes/ColorMatrixFilter.html">ColorMatrixFilter</a></li>
+            
+                <li><a href="../classes/Container.html">Container</a></li>
+            
+                <li><a href="../classes/DisplayObject.html">DisplayObject</a></li>
+            
+                <li><a href="../classes/DisplayProps.html">DisplayProps</a></li>
+            
+                <li><a href="../classes/DOMElement.html">DOMElement</a></li>
+            
+                <li><a href="../classes/EaselJS.html">EaselJS</a></li>
+            
+                <li><a href="../classes/Event.html">Event</a></li>
+            
+                <li><a href="../classes/EventDispatcher.html">EventDispatcher</a></li>
+            
+                <li><a href="../classes/Filter.html">Filter</a></li>
+            
+                <li><a href="../classes/Graphics.html">Graphics</a></li>
+            
+                <li><a href="../classes/Graphics.Arc.html">Graphics.Arc</a></li>
+            
+                <li><a href="../classes/Graphics.ArcTo.html">Graphics.ArcTo</a></li>
+            
+                <li><a href="../classes/Graphics.BeginPath.html">Graphics.BeginPath</a></li>
+            
+                <li><a href="../classes/Graphics.BezierCurveTo.html">Graphics.BezierCurveTo</a></li>
+            
+                <li><a href="../classes/Graphics.Circle.html">Graphics.Circle</a></li>
+            
+                <li><a href="../classes/Graphics.ClosePath.html">Graphics.ClosePath</a></li>
+            
+                <li><a href="../classes/Graphics.Ellipse.html">Graphics.Ellipse</a></li>
+            
+                <li><a href="../classes/Graphics.Fill.html">Graphics.Fill</a></li>
+            
+                <li><a href="../classes/Graphics.LineTo.html">Graphics.LineTo</a></li>
+            
+                <li><a href="../classes/Graphics.MoveTo.html">Graphics.MoveTo</a></li>
+            
+                <li><a href="../classes/Graphics.PolyStar.html">Graphics.PolyStar</a></li>
+            
+                <li><a href="../classes/Graphics.QuadraticCurveTo.html">Graphics.QuadraticCurveTo</a></li>
+            
+                <li><a href="../classes/Graphics.Rect.html">Graphics.Rect</a></li>
+            
+                <li><a href="../classes/Graphics.RoundRect.html">Graphics.RoundRect</a></li>
+            
+                <li><a href="../classes/Graphics.Stroke.html">Graphics.Stroke</a></li>
+            
+                <li><a href="../classes/Graphics.StrokeDash.html">Graphics.StrokeDash</a></li>
+            
+                <li><a href="../classes/Graphics.StrokeStyle.html">Graphics.StrokeStyle</a></li>
+            
+                <li><a href="../classes/Matrix2D.html">Matrix2D</a></li>
+            
+                <li><a href="../classes/MouseEvent.html">MouseEvent</a></li>
+            
+                <li><a href="../classes/MovieClip.html">MovieClip</a></li>
+            
+                <li><a href="../classes/MovieClipPlugin.html">MovieClipPlugin</a></li>
+            
+                <li><a href="../classes/Point.html">Point</a></li>
+            
+                <li><a href="../classes/Rectangle.html">Rectangle</a></li>
+            
+                <li><a href="../classes/Shadow.html">Shadow</a></li>
+            
+                <li><a href="../classes/Shape.html">Shape</a></li>
+            
+                <li><a href="../classes/Sprite.html">Sprite</a></li>
+            
+                <li><a href="../classes/SpriteSheet.html">SpriteSheet</a></li>
+            
+                <li><a href="../classes/SpriteSheetBuilder.html">SpriteSheetBuilder</a></li>
+            
+                <li><a href="../classes/SpriteSheetUtils.html">SpriteSheetUtils</a></li>
+            
+                <li><a href="../classes/Stage.html">Stage</a></li>
+            
+                <li><a href="../classes/StageGL.html">StageGL</a></li>
+            
+                <li><a href="../classes/Text.html">Text</a></li>
+            
+                <li><a href="../classes/Ticker.html">Ticker</a></li>
+            
+                <li><a href="../classes/Touch.html">Touch</a></li>
+            
+                <li><a href="../classes/UID.html">UID</a></li>
+            
+                <li><a href="../classes/Utility Methods.html">Utility Methods</a></li>
+            
+                <li><a href="../classes/VideoBuffer.html">VideoBuffer</a></li>
+            
+                <li><a href="../classes/WebGLInspector.html">WebGLInspector</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+                <li><a href="../modules/CreateJS.html">CreateJS</a></li>
+            
+                <li><a href="../modules/EaselJS.html">EaselJS</a></li>
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+            <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content source-content">
+                        <script>
+	var name = easeljs/utils/WebGLInspector.js      
+</script>
+<h1 class="file-heading">File:WebGLInspector.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/*
+ * WebGLInspector
+ * Visit http://createjs.com/ for documentation, updates and examples.
+ *
+ * Copyright (c) 2010 gskinner.com, inc.
+ *
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the &quot;Software&quot;), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+/**
+ * @module EaselJS
+ */
+
+this.createjs = this.createjs||{};
+
+(function() {
+	&quot;use strict&quot;;
+
+	/**
+	 * A utility and helper class designed to work with {{#crossLink &quot;StageGL&quot;}}{{/crossLink}} to help investigate and
+	 * test performance or display problems. It contains logging functions to analyze behaviour and performance testing
+	 * utilities.
+	 * @class WebGLInspector
+	 * @constructor
+	 * @param {StageGL} stage The default stage to use when none is supplied.
+	 */
+	function WebGLInspector(stage) {
+		this.EventDispatcher_constructor();
+
+	// public properties:
+
+	// private properties:
+		/**
+		 * The internal reference to the default stage this Inspector is for.
+		 * @property _stage
+		 * @protected
+		 * @type {StageGL}
+		 */
+		this._stage = stage;
+
+		// and begin
+		this._initializeWebGLInspector();
+	}
+	var p = createjs.extend(WebGLInspector, createjs.EventDispatcher);
+
+// static:
+	/**
+	 * Alternate output for debugging situations where &quot;console&quot; is not available, i.e. Mobile or remote debugging.
+	 * Expects object with a &quot;log&quot; function that takes any number of params.
+	 * @property alternateOutput
+	 * @type {Console}
+	 * @default null
+	 * @static
+	 * @protected
+	 */
+	p.alternateOutput = undefined;
+
+// getter / setters:
+
+// ctor:
+	/**
+	 * @method _initializeWebGL
+	 * @protected
+	 */
+	p._initializeWebGLInspector = function() {};
+
+// public methods:
+	/**
+	 * Perform all of the logging reports at once.
+	 * @method log
+	 * @param {StageGL} [stage=this._stage] The stage to log information for.
+	 */
+	p.log = function(stage) {
+		if(!stage){ stage = this._stage; }
+
+		console.log(&quot;Batches Per Draw&quot;, (stage._batchID/stage._drawID).toFixed(4));
+		this.logContextInfo(stage._webGLContext);
+		this.logDepth(stage.children, &quot;&quot;);
+		this.logTextureFill(stage);
+	};
+
+	/**
+	 * Replace the stage&#x27;s Draw command with an empty draw command. This is useful for testing performance, and ignoring
+	 * rendering.
+	 * @method toggleGPUDraw
+	 * @param {StageGL} [stage=this._stage] The stage to log information for.
+	 * @param {Boolean} enabled Force enabled. If left undefined, it will toggle.
+	 */
+	p.toggleGPUDraw = function(stage, enabled) {
+		if(!stage){ stage = this._stage; }
+
+		if(enabled === undefined) {
+			enabled = !!stage._drawBuffers_;
+		}
+
+		if(enabled) {
+			if(stage._drawBuffers_) {
+				stage._drawBuffers = stage._drawBuffers_;
+				stage._drawBuffers_ = undefined;
+			}
+		} else {
+			stage._drawBuffers_ = stage._drawBuffers;
+			stage._drawBuffers = function(gl) {
+				if(this.vocalDebug) {
+					var output = &quot;BlankDraw[&quot;+ this._drawID +&quot;:&quot;+ this._batchID +&quot;] : &quot;+ this.batchReason;
+					this.alternateOutput?this.alternateOutput.log(output):console.log(output);
+				}
+			};
+		}
+	};
+
+	/**
+	 * Recursively walk the entire display tree, log the attached items, and display it in a tree view.
+	 * @method logDepth
+	 * @param {Array} [children=this._stage.children] The children array to walk through.
+	 * @param {String} prepend What to prepend to this output from this point onwards.
+	 * @param {Function} customLog Which logging function to use, mainly for filtering or formatting output.
+	 * Fallback hierarchy is customLog -&gt; alternateOutput -&gt; console.log.
+	 */
+	p.logDepth = function(children, prepend, customLog) {
+		if(!children){ children = this._stage.children; }
+		if(!prepend){ prepend = &quot;&quot;; }
+
+		var l = children.length;
+		for(var i=0; i&lt;l; i++) {
+			var child = children[i];
+			if(customLog !== undefined){
+				customLog(prepend+&quot;-&quot;, child);
+			} else {
+				this.alternateOutput?this.alternateOutput.log(prepend+&quot;-&quot;, child):console.log(prepend+&quot;-&quot;, child);
+			}
+			if(child.children &amp;&amp; child.children.length) {
+				p.logDepth(child.children, &quot;|&quot;+prepend, customLog);
+			}
+		}
+	};
+
+	/**
+	 * Examine the context and provide information about its capabilities.
+	 * @method logContextInfo
+	 * @param {WebGLRenderingContext} gl The WebGL context to inspect.
+	 */
+	p.logContextInfo = function(gl) {
+		if(!gl) { gl = this._stage._webGLContext; }
+		var data = &quot;== LOG:\n&quot;;
+		data += &quot;Max textures per draw: &quot; + gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS) +&quot;\n&quot;;
+		data += &quot;Max textures active: &quot; + gl.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS) +&quot;\n&quot;;
+		data += &quot;\n&quot;;
+		data += &quot;Max texture size: &quot; + (gl.getParameter(gl.MAX_TEXTURE_SIZE)/2) +&quot;^2 \n&quot;;
+		data += &quot;Max cache size: &quot; + (gl.getParameter(gl.MAX_RENDERBUFFER_SIZE)/2) +&quot;^2 \n&quot;;
+		data += &quot;\n&quot;;
+		data += &quot;Max attributes per vertex: &quot; + gl.getParameter(gl.MAX_VERTEX_ATTRIBS) +&quot;\n&quot;;
+		data += &quot;WebGL Version string: &quot; + gl.getParameter(gl.VERSION) +&quot;\n&quot;;
+		data += &quot;======&quot;;
+		this.alternateOutput?this.alternateOutput.log(data):console.log(data);
+	};
+
+	/**
+	 * Simulate renders and watch what happens for textures moving around between draw calls. A texture moving between
+	 * slots means it was removed and then re-added to draw calls. Performance may be better if it was allowed to stay
+	 * in place.
+	 * @method logTextureFill
+	 * @param {StageGL} [stage=this._stage] The stage to log information for.
+	 */
+	p.logTextureFill = function(stage) {
+		if(!stage){ stage = this._stage; }
+
+		var dict = stage._textureDictionary;
+		var count = stage._batchTextureCount;
+		console.log(&quot;textureMax:&quot;, count);
+		var output = [];
+		for(var n in dict) {
+			var str = n.replace(window.location.origin, &quot;&quot;);
+			var tex = dict[n];
+			var shifted = tex._lastActiveInde?tex._lastActiveIndex == tex._activeIndex:false;
+			output.push({src:str, element:tex, shifted:shifted});
+			tex._lastActiveIndex = tex._activeIndex;
+		}
+
+		output.sort(function(a,b){
+			if (a.element._drawID == stage._drawID) { return 1; }
+			if (a.element._drawID &lt; b.element._drawID) { return -1; }
+			return 0;
+		});
+
+		var l = output.length;
+		for(var i = 0; i&lt;l; i++) {
+			var out = output[i];
+			var active = out.element._drawID == stage._drawID;
+			var output = &quot;[&quot;+out.src+&quot;] &quot;+ (active?&quot;ACTIVE&quot;:&quot;stale&quot;) +&quot; &quot;+ (out.shifted?&quot;steady&quot;:&quot;DRIFT&quot;);
+			this.alternateOutput?this.alternateOutput.log(output, out.element):console.log(output, out.element);
+		}
+	};
+
+
+// protected methods:
+
+// static methods:
+	/**
+	 * Utility function for use with {{#crossLink &quot;logDepth&quot;))((/crossLink}}. Logs an item&#x27;s position and registration.
+	 * Useful to see if something is being forced off screen or has an integer position.
+	 * @method dispProps
+	 * @param {String} prepend The string to show before the item, usually formatting for a tree view.
+	 * @param {DisplayObject} item The item we&#x27;re currently logging about.
+	 * @static
+	 */
+	WebGLInspector.dispProps = function(prepend, item){
+		if(!prepend){ prepend = &quot;&quot;; }
+
+		var p = &quot;\tP:&quot;+ item.x.toFixed(2)+&quot;x&quot;+item.y.toFixed(2) +&quot;\t&quot;;
+		var r = &quot;\tR:&quot;+ item.regX.toFixed(2)+&quot;x&quot;+item.regY.toFixed(2) +&quot;\t&quot;;
+
+		if(!this.alternateOutput) {
+			console.log(prepend, item.toString()+&quot;\t&quot;, p,r);
+		} else {
+			this.alternateOutput.log(prepend, item.toString()+&quot;\t&quot;, p,r);
+		}
+	};
+
+	createjs.WebGLInspector = createjs.promote(WebGLInspector, &quot;EventDispatcher&quot;);
+}());
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

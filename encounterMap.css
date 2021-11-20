@@ -1,0 +1,22 @@
+.centering {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#mirroredEncounterMap {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    min-height: 90%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: white;
+}
+
+#canvas {
+    border: thin rgba(140,140,140) dashed;
+}
